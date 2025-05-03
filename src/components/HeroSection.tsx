@@ -13,7 +13,7 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({
   title,
   subtitle,
-  backgroundImage = "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1200",
+  backgroundImage = "public/lovable-uploads/b43ad39f-f05b-470e-8ba5-1d6c7d8ce88d.png",
   buttonText,
   buttonLink,
 }) => {
@@ -21,7 +21,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     <div
       className="relative min-h-[60vh] md:min-h-[80vh] flex items-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${backgroundImage})`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
