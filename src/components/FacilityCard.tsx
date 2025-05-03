@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Library, Building, GraduationCap, Transportation, Home, Microscope } from "lucide-react";
+import { Library, Building, GraduationCap, Bus, Home, Microscope } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface FacilityCardProps {
@@ -28,7 +28,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
       case "graduation":
         return <GraduationCap className="h-8 w-8" />;
       case "transportation":
-        return <Transportation className="h-8 w-8" />;
+        return <Bus className="h-8 w-8" />; // Changed from Transportation to Bus
       case "home":
         return <Home className="h-8 w-8" />;
       case "laboratory":
