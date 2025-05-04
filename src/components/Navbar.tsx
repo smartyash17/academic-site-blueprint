@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight, HandHeart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -138,6 +137,7 @@ const Navbar = () => {
         { name: "Hostel", path: "/facilities/hostel" },
       ],
     },
+    { name: "Donate", path: "/donate" },
   ];
 
   return (
@@ -153,8 +153,11 @@ const Navbar = () => {
               <span>Phone: +91-234-567-8901</span>
             </div>
             <div className=" text-white font-bold text-lg"> Click on the Apply Link To Get Admission </div>
-            <div className="hidden md:block">
+            <div className="hidden md:flex gap-2">
               <Button variant="outline" className="bg-white text-college-primary hover:bg-college-secondary hover:text-white">Apply Now</Button>
+              <Button variant="outline" className="bg-college-secondary text-white border-college-secondary hover:bg-white hover:text-college-secondary flex items-center gap-1">
+                <HandHeart className="h-4 w-4" /> Donate
+              </Button>
             </div>
           </div>
         </div>

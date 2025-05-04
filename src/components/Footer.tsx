@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { HandHeart } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -43,6 +44,11 @@ const Footer = () => {
               <li>
                 <Link to="/committees" className="text-gray-300 hover:text-white transition">
                   Committees
+                </Link>
+              </li>
+              <li>
+                <Link to="/donate" className="text-gray-300 hover:text-white transition flex items-center gap-1">
+                  <HandHeart className="h-4 w-4" /> Donate
                 </Link>
               </li>
             </ul>
