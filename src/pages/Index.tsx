@@ -22,11 +22,10 @@ const Index = () => {
         backgroundImage="public/lovable-uploads/b43ad39f-f05b-470e-8ba5-1d6c7d8ce88d.png"
       />
       <AboutSection />
-      <FeaturedCoursesSection />
       <NewsNotificationSection />
+      <FeaturedCoursesSection />
       <StudentLifeSection />
       <FacilitiesSection />
-      <CampusImagesSection />
       <MedicalTrainingSection />
       <CallToActionSection />
     </Layout>
