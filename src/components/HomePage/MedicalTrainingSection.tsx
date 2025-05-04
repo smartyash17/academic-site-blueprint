@@ -9,7 +9,7 @@ const MedicalTrainingSection = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="w-full md:w-1/2">
-            <img src="public/lovable-uploads/e7551a4c-5376-44b6-940f-b32a8e7bd876.png" alt="Medical training" className="rounded-lg w-full shadow-md" />
+            <img src="public/lovable-uploads/gallery3.jpg" alt="Medical training" className="rounded-lg w-full shadow-md" />
           </div>
           <div className="w-full md:w-1/2">
             <div className="inline-block mb-6">
