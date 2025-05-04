@@ -5,6 +5,7 @@ import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Logo from "./Logo";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -157,8 +158,12 @@ const Navbar = () => {
           </div>
         </div>
         <div className="container mx-auto px-4 flex justify-between items-center py-4">
-          <Link to="/" className="flex items-center">
-            <span className="text-college-primary font-bold text-xl md:text-2xl">College of Pharmacy & Nursing</span>
+          <Link to="/" className="flex items-center gap-3">
+            <Logo width={50} height={50} />
+            <div className="flex flex-col">
+              <span className="text-college-primary font-bold text-xl md:text-2xl">Sarada Devi</span>
+              <span className="text-xs text-gray-700">Group of Institutions</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
