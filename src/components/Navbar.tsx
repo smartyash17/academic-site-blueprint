@@ -152,7 +152,7 @@ const Navbar = () => {
               <span className="mr-4">Email: info@college.edu</span>
               <span>Phone: +91-234-567-8901</span>
             </div>
-            <div> Click on the Apply Link To Get Admission </div>
+            <div className=" text-white font-bold text-lg"> Click on the Apply Link To Get Admission </div>
             <div className="hidden md:block">
               <Button variant="outline" className="bg-white text-college-primary hover:bg-college-secondary hover:text-white">Apply Now</Button>
             </div>
