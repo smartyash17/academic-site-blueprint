@@ -9,6 +9,7 @@ import FacilitiesSection from "@/components/HomePage/FacilitiesSection";
 import CampusImagesSection from "@/components/HomePage/CampusImagesSection";
 import MedicalTrainingSection from "@/components/HomePage/MedicalTrainingSection";
 import CallToActionSection from "@/components/HomePage/CallToActionSection";
+import NewsNotificationSection from "@/components/HomePage/NewsNotificationSection";
 
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
       />
       <AboutSection />
       <FeaturedCoursesSection />
+      <NewsNotificationSection />
       <StudentLifeSection />
       <FacilitiesSection />
       <CampusImagesSection />
