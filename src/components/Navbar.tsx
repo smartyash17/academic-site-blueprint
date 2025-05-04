@@ -150,8 +150,9 @@ const Navbar = () => {
           <div className="container mx-auto px-4 flex justify-between items-center">
             <div className="text-white text-xs md:text-sm">
               <span className="mr-4">Email: info@college.edu</span>
-              <span>Phone: +1-234-567-8901</span>
+              <span>Phone: +91-234-567-8901</span>
             </div>
+            <div> Click on the Apply Link To Get Admission </div>
             <div className="hidden md:block">
               <Button variant="outline" className="bg-white text-college-primary hover:bg-college-secondary hover:text-white">Apply Now</Button>
             </div>
@@ -162,7 +163,7 @@ const Navbar = () => {
             <Logo width={50} height={50} />
             <div className="flex flex-col">
               <span className="text-college-primary font-bold text-xl md:text-2xl">Sarada Devi</span>
-              <span className="text-xs text-gray-700">Group of Institutions</span>
+              <span className="text-xs text-gray-700">Institite Of Medical Sciences</span>
             </div>
           </Link>
 
