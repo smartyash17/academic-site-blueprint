@@ -54,10 +54,10 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				college: {
-					primary: '#0A2463',
+					primary: '#16a34a',
 					secondary: '#E6AF2E',
 					light: '#F8F8FF',
-					dark: '#1E3A8A'
+					dark: '#15803d'
 				}
 			},
 			borderRadius: {

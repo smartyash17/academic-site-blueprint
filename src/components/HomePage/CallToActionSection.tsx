@@ -7,7 +7,7 @@ const CallToActionSection = () => {
     <section
       className="py-16 bg-college-primary relative"
       style={{
-        backgroundImage: "linear-gradient(rgba(10, 36, 99, 0.9), rgba(10, 36, 99, 0.9)), url(public/lovable-uploads/21e101ab-d527-4b4e-b8ab-8e9e2476e163.png)",
+        backgroundImage: "linear-gradient(rgba(22, 163, 74, 0.9), rgba(22, 163, 74, 0.9)), url(public/lovable-uploads/21e101ab-d527-4b4e-b8ab-8e9e2476e163.png)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -18,8 +18,8 @@ const CallToActionSection = () => {
             Ready to Start Your Journey with Us?
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Apply now to secure your place in our upcoming academic session and take
-            the first step towards a rewarding career in healthcare.
+            Apply now to secure your place in our upcoming academic session and
+            take the first step towards a rewarding career in healthcare.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button size="lg" className="bg-college-secondary hover:bg-college-secondary/90 text-college-primary font-semibold">
