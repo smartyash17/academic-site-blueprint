@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronRight, HandHeart } from "lucide-react";
@@ -56,9 +57,9 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { name: "HOME", path: "/" },
+    { name: "Home", path: "/" },
     {
-      name: "About Us",
+      name: "About",
       path: "/about",
       submenu: [
         { name: "Chairman's Desk", path: "/about/chairmans-desk" },
@@ -66,6 +67,18 @@ const Navbar = () => {
         { name: "Service Rules", path: "/about/service-rules" },
       ],
     },
+    { name: "Faculties", path: "/faculties" },
+    {
+      name: "Academics",
+      path: "/research",
+      submenu: [
+        { name: "Research", path: "/research" },
+        { name: "Syllabus", path: "/syllabus" },
+        { name: "Question Banks", path: "/question-banks" },
+      ],
+    },
+    { name: "Admission", path: "/apply" },
+    { name: "Donation", path: "/donate" },
     {
       name: "Courses",
       path: "/courses",
@@ -98,35 +111,6 @@ const Navbar = () => {
       ],
     },
     {
-      name: "Syllabus",
-      path: "/syllabus",
-      submenu: [
-        { name: "Pharmacy", path: "/syllabus/pharmacy" },
-        { name: "Nursing", path: "/syllabus/nursing" },
-        { name: "Paramedical", path: "/syllabus/paramedical" },
-      ],
-    },
-    {
-      name: "Fees Structure",
-      path: "/fees",
-      submenu: [
-        { name: "Pharmacy", path: "/fees/pharmacy" },
-        { name: "Nursing", path: "/fees/nursing" },
-        { name: "Paramedical", path: "/fees/paramedical" },
-      ],
-    },
-    {
-      name: "Question Banks",
-      path: "/question-banks",
-      submenu: [
-        { name: "Pharmacy", path: "/question-banks/pharmacy" },
-        { name: "Nursing", path: "/question-banks/nursing" },
-        { name: "DMLT", path: "/question-banks/dmlt" },
-      ],
-    },
-    { name: "Committees", path: "/committees" },
-    { name: "Faculties", path: "/faculties" },
-    {
       name: "Facilities",
       path: "/facilities",
       submenu: [
@@ -137,7 +121,8 @@ const Navbar = () => {
         { name: "Hostel", path: "/facilities/hostel" },
       ],
     },
-    { name: "Donate", path: "/donate" },
+    { name: "Gallery", path: "/gallery" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
@@ -347,8 +332,6 @@ const Navbar = () => {
           </div>
         </nav>
       </div>
-      
-      {/* Add global styles to the Layout component */}
     </>
   );
 };
