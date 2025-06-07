@@ -28,7 +28,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
       case "graduation":
         return <GraduationCap className="h-8 w-8" />;
       case "transportation":
-        return <Bus className="h-8 w-8" />; // Changed from Transportation to Bus
+        return <Bus className="h-8 w-8" />;
       case "home":
         return <Home className="h-8 w-8" />;
       case "laboratory":
@@ -41,14 +41,14 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
   return (
     <Link to={link}>
       <div className={cn(
-        "bg-white rounded-lg p-6 shadow-sm h-full transition-all duration-300 hover:shadow-md border border-gray-100",
+        "bg-white rounded-lg p-6 shadow-sm h-full transition-all duration-300 hover:shadow-lg hover:scale-105 border border-gray-100 group",
         className
       )}>
-        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-college-primary/10 text-college-primary mb-4">
+        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-college-primary/10 text-college-primary mb-4 group-hover:bg-college-primary group-hover:text-white transition-all duration-300">
           {renderIcon()}
         </div>
-        <h3 className="text-xl font-semibold mb-3">{title}</h3>
-        <p className="text-gray-600">{description}</p>
+        <h3 className="text-xl font-semibold mb-3 text-college-primary group-hover:text-college-dark transition-colors">{title}</h3>
+        <p className="text-gray-600 group-hover:text-gray-700 transition-colors">{description}</p>
       </div>
     </Link>
   );

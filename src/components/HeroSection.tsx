@@ -21,7 +21,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     <div
       className="relative min-h-[60vh] md:min-h-[80vh] flex items-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
+        backgroundImage: `linear-gradient(rgba(22, 163, 74, 0.8), rgba(22, 163, 74, 0.8)), url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -37,7 +37,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           {buttonText && buttonLink && (
             <Button
               size="lg"
-              className="bg-college-secondary hover:bg-college-secondary/90 text-college-primary font-semibold text-lg"
+              variant="secondary"
+              className="text-lg shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
               <a href={buttonLink}>{buttonText}</a>
