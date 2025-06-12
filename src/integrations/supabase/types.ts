@@ -9,7 +9,78 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      admission_applications: {
+        Row: {
+          academic_details: Json | null
+          application_status: string | null
+          created_at: string
+          declaration: Json | null
+          id: string
+          payment_amount: number | null
+          payment_status: string | null
+          personal_details: Json | null
+          submitted_at: string | null
+          updated_at: string
+          uploads: Json | null
+          user_id: string
+        }
+        Insert: {
+          academic_details?: Json | null
+          application_status?: string | null
+          created_at?: string
+          declaration?: Json | null
+          id?: string
+          payment_amount?: number | null
+          payment_status?: string | null
+          personal_details?: Json | null
+          submitted_at?: string | null
+          updated_at?: string
+          uploads?: Json | null
+          user_id: string
+        }
+        Update: {
+          academic_details?: Json | null
+          application_status?: string | null
+          created_at?: string
+          declaration?: Json | null
+          id?: string
+          payment_amount?: number | null
+          payment_status?: string | null
+          personal_details?: Json | null
+          submitted_at?: string | null
+          updated_at?: string
+          uploads?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

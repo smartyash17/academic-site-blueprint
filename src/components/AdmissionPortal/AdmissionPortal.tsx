@@ -3,12 +3,15 @@ import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Save } from "lucide-react";
 import PersonalDetailsStep from "./PersonalDetailsStep";
 import AcademicDetailsStep from "./AcademicDetailsStep";
 import DeclarationStep from "./DeclarationStep";
 import UploadPaymentStep from "./UploadPaymentStep";
 import { FormData } from "./types";
+import { useFormPersistence } from "@/hooks/useFormPersistence";
+import { useAuth } from "@/components/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface AdmissionPortalProps {
   isOpen: boolean;
@@ -22,105 +25,116 @@ const STEPS = [
   { title: "Upload & Payment", component: UploadPaymentStep },
 ];
 
+const initialFormData: FormData = {
+  personalDetails: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    gender: "",
+    dateOfBirth: "",
+    mobile1: "",
+    mobile2: "",
+    aadharNo: "",
+    maritalStatus: "",
+    minorityStatus: "",
+    jkImmigrant: false,
+    nationality: "",
+    category: "",
+    caste: "",
+    bloodGroup: "",
+    domicile: "",
+    localGuardian: "",
+    chronicAilment: "",
+    academicProbation: false,
+    isSponsored: false,
+    fatherDetails: {
+      name: "",
+      mobile: "",
+      qualification: "",
+      occupation: "",
+      income: "",
+      taxPayee: false,
+    },
+    motherDetails: {
+      name: "",
+      mobile: "",
+      qualification: "",
+      occupation: "",
+      income: "",
+      taxPayee: false,
+    },
+    permanentAddress: {
+      address: "",
+      pincode: "",
+    },
+    localAddress: {
+      address: "",
+      pincode: "",
+    },
+    hostelRequired: false,
+    busRequired: false,
+    disabilityStatus: false,
+    collegeTransfer: false,
+  },
+  academicDetails: {
+    twelfthDetails: {
+      board: "",
+      year: "",
+      marksObtained: "",
+      marksOutOf: "",
+      cgpa: "",
+      subjectMarks: "",
+      medium: "",
+      rollNo: "",
+      schoolCode: "",
+      admitCardId: "",
+    },
+    graduationDetails: {
+      degree: "",
+      year: "",
+      university: "",
+      rollNo: "",
+      cgpa: "",
+      resultAwaited: false,
+    },
+    postGraduationDetails: {
+      degree: "",
+      year: "",
+      university: "",
+      rollNo: "",
+      cgpa: "",
+      resultAwaited: false,
+    },
+    entranceExam: false,
+    coursePreferences: [],
+  },
+  declaration: {
+    studentSignature: "",
+    parentSignature: "",
+    declarationAccepted: false,
+  },
+  uploads: {
+    passportPhoto: null,
+    aadharCard: null,
+    twelfthMarksheet: null,
+    graduationMarksheet: null,
+    studentSignature: null,
+    parentSignature: null,
+  },
+};
+
 const AdmissionPortal: React.FC<AdmissionPortalProps> = ({ isOpen, onClose }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<FormData>({
-    personalDetails: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      gender: "",
-      dateOfBirth: "",
-      mobile1: "",
-      mobile2: "",
-      aadharNo: "",
-      maritalStatus: "",
-      minorityStatus: "",
-      jkImmigrant: false,
-      nationality: "",
-      category: "",
-      caste: "",
-      bloodGroup: "",
-      domicile: "",
-      localGuardian: "",
-      chronicAilment: "",
-      academicProbation: false,
-      isSponsored: false,
-      fatherDetails: {
-        name: "",
-        mobile: "",
-        qualification: "",
-        occupation: "",
-        income: "",
-        taxPayee: false,
-      },
-      motherDetails: {
-        name: "",
-        mobile: "",
-        qualification: "",
-        occupation: "",
-        income: "",
-        taxPayee: false,
-      },
-      permanentAddress: {
-        address: "",
-        pincode: "",
-      },
-      localAddress: {
-        address: "",
-        pincode: "",
-      },
-      hostelRequired: false,
-      busRequired: false,
-      disabilityStatus: false,
-      collegeTransfer: false,
-    },
-    academicDetails: {
-      twelfthDetails: {
-        board: "",
-        year: "",
-        marksObtained: "",
-        marksOutOf: "",
-        cgpa: "",
-        subjectMarks: "",
-        medium: "",
-        rollNo: "",
-        schoolCode: "",
-        admitCardId: "",
-      },
-      graduationDetails: {
-        degree: "",
-        year: "",
-        university: "",
-        rollNo: "",
-        cgpa: "",
-        resultAwaited: false,
-      },
-      postGraduationDetails: {
-        degree: "",
-        year: "",
-        university: "",
-        rollNo: "",
-        cgpa: "",
-        resultAwaited: false,
-      },
-      entranceExam: false,
-      coursePreferences: [],
-    },
-    declaration: {
-      studentSignature: "",
-      parentSignature: "",
-      declarationAccepted: false,
-    },
-    uploads: {
-      passportPhoto: null,
-      aadharCard: null,
-      twelfthMarksheet: null,
-      graduationMarksheet: null,
-      studentSignature: null,
-      parentSignature: null,
-    },
-  });
+  const { formData, setFormData, saveFormData, submitApplication, loading } = useFormPersistence(initialFormData);
+
+  React.useEffect(() => {
+    if (isOpen && !user) {
+      navigate("/auth");
+      onClose();
+    }
+  }, [isOpen, user, navigate, onClose]);
 
   const progress = ((currentStep + 1) / STEPS.length) * 100;
 
@@ -137,13 +151,29 @@ const AdmissionPortal: React.FC<AdmissionPortalProps> = ({ isOpen, onClose }) =>
   };
 
   const handleStepData = (stepData: any) => {
-    setFormData(prev => ({
-      ...prev,
+    const updatedFormData = {
+      ...formData,
       ...stepData,
-    }));
+    };
+    setFormData(updatedFormData);
+  };
+
+  const handleSaveProgress = () => {
+    saveFormData(formData);
+  };
+
+  const handleSubmitApplication = async () => {
+    const success = await submitApplication(formData);
+    if (success) {
+      onClose();
+    }
   };
 
   const CurrentStepComponent = STEPS[currentStep].component;
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -184,15 +214,27 @@ const AdmissionPortal: React.FC<AdmissionPortalProps> = ({ isOpen, onClose }) =>
 
         {/* Navigation Buttons */}
         <div className="flex justify-between border-t pt-4">
-          <Button
-            variant="outline"
-            onClick={handlePrevious}
-            disabled={currentStep === 0}
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Previous
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={handlePrevious}
+              disabled={currentStep === 0}
+              className="flex items-center gap-2"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </Button>
+            
+            <Button
+              variant="outline"
+              onClick={handleSaveProgress}
+              disabled={loading}
+              className="flex items-center gap-2"
+            >
+              <Save className="h-4 w-4" />
+              {loading ? "Saving..." : "Save Progress"}
+            </Button>
+          </div>
 
           {currentStep < STEPS.length - 1 ? (
             <Button
@@ -205,13 +247,10 @@ const AdmissionPortal: React.FC<AdmissionPortalProps> = ({ isOpen, onClose }) =>
           ) : (
             <Button
               className="bg-green-600 hover:bg-green-700"
-              onClick={() => {
-                // Handle final submission
-                console.log("Final submission:", formData);
-                onClose();
-              }}
+              onClick={handleSubmitApplication}
+              disabled={loading}
             >
-              Submit Application
+              {loading ? "Submitting..." : "Submit Application"}
             </Button>
           )}
         </div>

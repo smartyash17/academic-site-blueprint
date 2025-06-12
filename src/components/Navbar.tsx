@@ -1,338 +1,218 @@
 
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, ChevronDown, ChevronRight, HandHeart } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, ChevronDown, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
-import Logo from "./Logo";
+import { useAuth } from "./AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openSubMenus, setOpenSubMenus] = useState<Record<string, boolean>>({});
-  const [openSubSubMenus, setOpenSubSubMenus] = useState<Record<string, boolean>>({});
-  const [isScrolled, setIsScrolled] = useState(false);
-  const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Close mobile menu when switching to desktop view
-    if (!isMobile && mobileMenuOpen) {
-      setMobileMenuOpen(false);
-      document.body.style.overflow = "";
-    }
-  }, [isMobile, mobileMenuOpen]);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-    if (!mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
   };
 
-  const toggleSubMenu = (submenu: string) => {
-    setOpenSubMenus((prev) => ({
-      ...prev,
-      [submenu]: !prev[submenu],
-    }));
-  };
-
-  const toggleSubSubMenu = (subsubmenu: string) => {
-    setOpenSubSubMenus((prev) => ({
-      ...prev,
-      [subsubmenu]: !prev[subsubmenu],
-    }));
+  const handleSignIn = () => {
+    navigate("/auth");
   };
 
   const navItems = [
-    { name: "Home", path: "/" },
     {
       name: "About",
-      path: "/about",
-      submenu: [
-        { name: "Chairman's Desk", path: "/about/chairmans-desk" },
-        { name: "Board Members", path: "/about/board-members" },
-        { name: "Service Rules", path: "/about/service-rules" },
+      href: "/about",
+      dropdown: [
+        { name: "Overview", href: "/about" },
+        { name: "Chairman's Desk", href: "/about/chairmans-desk" },
+        { name: "Board Members", href: "/about/board-members" },
+        { name: "Service Rules", href: "/about/service-rules" },
       ],
     },
-    { name: "Faculties", path: "/faculties" },
-    {
-      name: "Academics",
-      path: "/research",
-      submenu: [
-        { name: "Research", path: "/research" },
-        { name: "Syllabus", path: "/syllabus" },
-        { name: "Question Banks", path: "/question-banks" },
-      ],
-    },
-    { name: "Admission", path: "/apply" },
-    { name: "Donation", path: "/donate" },
     {
       name: "Courses",
-      path: "/courses",
-      submenu: [
-        { name: "Eligibility Criteria", path: "/courses/eligibility" },
-        {
-          name: "Pharmacy",
-          path: "/courses/pharmacy",
-          submenu: [
-            { name: "D.Pharm.", path: "/courses/pharmacy/dpharm" },
-            { name: "B.Pharm.", path: "/courses/pharmacy/bpharm" },
-          ],
-        },
-        {
-          name: "Nursing",
-          path: "/courses/nursing",
-          submenu: [
-            { name: "ANM", path: "/courses/nursing/anm" },
-            { name: "GNM", path: "/courses/nursing/gnm" },
-            { name: "B.Sc. Nursing", path: "/courses/nursing/bsc" },
-            { name: "P.B. B.Sc. Nursing", path: "/courses/nursing/pbsc" },
-            { name: "M.Sc. Nursing", path: "/courses/nursing/msc" },
-          ],
-        },
-        {
-          name: "Paramedical",
-          path: "/courses/paramedical",
-          submenu: [{ name: "DMLT", path: "/courses/paramedical/dmlt" }],
-        },
+      href: "/courses",
+      dropdown: [
+        { name: "All Courses", href: "/courses" },
+        { name: "Pharmacy", href: "/courses/pharmacy" },
+        { name: "Nursing", href: "/courses/nursing" },
+        { name: "Paramedical", href: "/courses/paramedical" },
+        { name: "Eligibility", href: "/courses/eligibility" },
       ],
     },
+    { name: "Admissions", href: "/admissions" },
     {
       name: "Facilities",
-      path: "/facilities",
-      submenu: [
-        { name: "Laboratory", path: "/facilities/laboratory" },
-        { name: "Equipment", path: "/facilities/equipment" },
-        { name: "Library", path: "/facilities/library" },
-        { name: "Transportation", path: "/facilities/transportation" },
-        { name: "Hostel", path: "/facilities/hostel" },
+      href: "/facilities",
+      dropdown: [
+        { name: "Overview", href: "/facilities" },
+        { name: "Hostel", href: "/facilities/hostel" },
+        { name: "Transportation", href: "/facilities/transportation" },
+        { name: "Library", href: "/facilities/library" },
+        { name: "Laboratory", href: "/facilities/laboratory" },
+        { name: "Equipment", href: "/facilities/equipment" },
       ],
     },
-    { name: "Gallery", path: "/gallery" },
-    { name: "Contact", path: "/contact" },
+    { name: "Fees", href: "/fees" },
+    { name: "Faculties", href: "/faculties" },
+    { name: "News & Events", href: "/news-events" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Placement", href: "/placement" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
-    <>
-      <header className={cn(
-        "fixed w-full bg-white top-0 z-40 transition-all duration-300",
-        isScrolled ? "shadow-md" : ""
-      )}>
-        <div className="bg-college-primary py-2 md:py-3">
-          <div className="container mx-auto px-4 flex justify-between items-center">
-            <div className="text-white text-xs md:text-sm">
-              <span className="mr-4">Email: info@college.edu</span>
-              <span>Phone: +91-234-567-8901</span>
+    <nav className="bg-white shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-college-primary rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-lg">C</span>
             </div>
-            <div className=" text-white font-bold text-lg"> Click on the Apply Link To Get Admission </div>
-            <div className="hidden md:flex gap-2">
-              <Button variant="outline" className="bg-white text-college-primary hover:bg-college-secondary hover:text-white">Apply Now</Button>
-              <Button variant="outline" className="bg-college-secondary text-white border-college-secondary hover:bg-white hover:text-college-secondary flex items-center gap-1">
-                <HandHeart className="h-4 w-4" /> Donate
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="container mx-auto px-4 flex justify-between items-center py-4">
-          <Link to="/" className="flex items-center gap-3">
-            <Logo width={50} height={50} />
-            <div className="flex flex-col">
-              <span className="text-college-primary font-bold text-xl md:text-2xl">Sarada Devi</span>
-              <span className="text-xs text-gray-700">Institite Of Medical Sciences</span>
-            </div>
+            <span className="text-xl font-bold text-college-primary">
+              College Portal
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
-              <div
-                key={item.name}
-                className="group relative px-3 py-2 rounded-md font-medium text-sm hover:bg-gray-100"
-              >
-                <Link
-                  to={item.path}
-                  className="flex items-center text-gray-800"
-                >
-                  {item.name}
-                  {item.submenu && (
-                    <ChevronDown className="h-4 w-4 ml-1 text-gray-500" />
-                  )}
-                </Link>
-                {item.submenu && (
-                  <div className="invisible group-hover:visible absolute left-0 top-full mt-1 w-48 bg-white shadow-lg rounded-md overflow-hidden z-50 border border-gray-200">
-                    {item.submenu.map((subItem) => (
-                      <div
-                        key={subItem.name}
-                        className="group/submenu relative"
-                      >
-                        <Link
-                          to={subItem.path}
-                          className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 whitespace-nowrap flex justify-between items-center"
-                        >
-                          {subItem.name}
-                          {subItem.submenu && (
-                            <ChevronRight className="h-4 w-4 text-gray-500" />
-                          )}
-                        </Link>
-                        {subItem.submenu && (
-                          <div className="invisible group-hover/submenu:visible absolute left-full top-0 w-48 bg-white shadow-lg rounded-md overflow-hidden z-50 border border-gray-200">
-                            {subItem.submenu.map((subsubItem) => (
-                              <Link
-                                key={subsubItem.name}
-                                to={subsubItem.path}
-                                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 whitespace-nowrap"
-                              >
-                                {subsubItem.name}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="lg:hidden text-gray-800 hover:text-college-primary"
-          >
-            <Menu className="h-6 w-6" />
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile Navigation Menu */}
-      <div
-        className={cn(
-          "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300",
-          mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        )}
-        onClick={toggleMobileMenu}
-      ></div>
-      
-      <div
-        className={cn(
-          "fixed top-0 right-0 h-full w-[280px] bg-white z-50 shadow-xl transform transition-transform duration-300 overflow-y-auto",
-          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-semibold text-college-primary">Menu</h2>
-          <button
-            onClick={toggleMobileMenu}
-            className="text-gray-800 hover:text-college-primary"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-
-        <nav className="flex flex-col">
-          {navItems.map((item) => (
-            <div key={item.name} className="border-b border-gray-100">
-              {item.submenu ? (
-                <div>
-                  <button
-                    className="flex justify-between items-center w-full p-3 text-gray-800"
-                    onClick={() => toggleSubMenu(item.name)}
-                  >
-                    <span>{item.name}</span>
-                    <ChevronDown
-                      className={cn(
-                        "h-4 w-4 text-gray-500 transition-transform",
-                        openSubMenus[item.name] ? "rotate-180" : ""
-                      )}
-                    />
-                  </button>
-                  <div
-                    className={cn(
-                      "bg-gray-50 overflow-hidden transition-all duration-300",
-                      openSubMenus[item.name] ? "max-h-[1000px]" : "max-h-0"
-                    )}
-                  >
-                    {item.submenu.map((subItem) => (
-                      <div
-                        key={subItem.name}
-                        className="border-t border-gray-100"
-                      >
-                        {subItem.submenu ? (
-                          <>
-                            <button
-                              className="flex justify-between items-center w-full p-3 pl-6 text-gray-800"
-                              onClick={() => toggleSubSubMenu(subItem.name)}
-                            >
-                              <span>{subItem.name}</span>
-                              <ChevronDown
-                                className={cn(
-                                  "h-4 w-4 text-gray-500 transition-transform",
-                                  openSubSubMenus[subItem.name] ? "rotate-180" : ""
-                                )}
-                              />
-                            </button>
-                            <div
-                              className={cn(
-                                "bg-gray-100 overflow-hidden transition-all duration-300",
-                                openSubSubMenus[subItem.name] ? "max-h-[500px]" : "max-h-0"
-                              )}
-                            >
-                              {subItem.submenu.map((subsubItem) => (
-                                <Link
-                                  key={subsubItem.name}
-                                  to={subsubItem.path}
-                                  className="block p-3 pl-10 text-gray-800 border-t border-gray-200 hover:bg-gray-200"
-                                  onClick={toggleMobileMenu}
-                                >
-                                  {subsubItem.name}
-                                </Link>
-                              ))}
-                            </div>
-                          </>
-                        ) : (
+              <div key={item.name} className="relative group">
+                {item.dropdown ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="flex items-center space-x-1 text-gray-700 hover:text-college-primary transition-colors duration-200 focus:outline-none">
+                      <span>{item.name}</span>
+                      <ChevronDown className="w-4 h-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      {item.dropdown.map((subItem) => (
+                        <DropdownMenuItem key={subItem.name} asChild>
                           <Link
-                            to={subItem.path}
-                            className="block p-3 pl-6 text-gray-800 hover:bg-gray-200"
-                            onClick={toggleMobileMenu}
+                            to={subItem.href}
+                            className="w-full cursor-pointer"
                           >
                             {subItem.name}
                           </Link>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  to={item.path}
-                  className="block p-3 text-gray-800 hover:bg-gray-100"
-                  onClick={toggleMobileMenu}
-                >
-                  {item.name}
-                </Link>
-              )}
-            </div>
-          ))}
-          <div className="p-4">
-            <Button className="w-full bg-college-primary hover:bg-college-dark text-white">Apply Now</Button>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className="text-gray-700 hover:text-college-primary transition-colors duration-200"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+              </div>
+            ))}
+            
+            {/* User Authentication */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex items-center space-x-2">
+                    <User className="w-4 h-4" />
+                    <span className="max-w-20 truncate">
+                      {user.email}
+                    </span>
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button onClick={handleSignIn} className="bg-college-primary hover:bg-college-dark">
+                Sign In
+              </Button>
+            )}
           </div>
-        </nav>
+
+          {/* Mobile menu button */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-700 hover:text-college-primary focus:outline-none focus:text-college-primary"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="lg:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-50 rounded-lg mb-4">
+              {navItems.map((item) => (
+                <div key={item.name}>
+                  <Link
+                    to={item.href}
+                    className="block px-3 py-2 text-gray-700 hover:text-college-primary hover:bg-gray-100 rounded-md transition-colors duration-200"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.dropdown && (
+                    <div className="pl-4 space-y-1">
+                      {item.dropdown.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          to={subItem.href}
+                          className="block px-3 py-2 text-sm text-gray-600 hover:text-college-primary hover:bg-gray-100 rounded-md transition-colors duration-200"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              
+              {/* Mobile User Authentication */}
+              <div className="border-t border-gray-200 pt-4">
+                {user ? (
+                  <div className="space-y-2">
+                    <div className="px-3 py-2 text-sm text-gray-500">
+                      Signed in as: {user.email}
+                    </div>
+                    <Button
+                      onClick={handleSignOut}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={handleSignIn}
+                    className="w-full bg-college-primary hover:bg-college-dark"
+                  >
+                    Sign In
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </>
+    </nav>
   );
 };
 
