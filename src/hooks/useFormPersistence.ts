@@ -35,10 +35,10 @@ export const useFormPersistence = (initialData: FormData) => {
 
       if (data) {
         setFormData({
-          personalDetails: data.personal_details || initialData.personalDetails,
-          academicDetails: data.academic_details || initialData.academicDetails,
-          declaration: data.declaration || initialData.declaration,
-          uploads: data.uploads || initialData.uploads,
+          personalDetails: (data.personal_details as any) || initialData.personalDetails,
+          academicDetails: (data.academic_details as any) || initialData.academicDetails,
+          declaration: (data.declaration as any) || initialData.declaration,
+          uploads: (data.uploads as any) || initialData.uploads,
         });
       }
     } catch (error) {
@@ -55,10 +55,10 @@ export const useFormPersistence = (initialData: FormData) => {
         .from("admission_applications")
         .upsert({
           user_id: user.id,
-          personal_details: data.personalDetails,
-          academic_details: data.academicDetails,
-          declaration: data.declaration,
-          uploads: data.uploads,
+          personal_details: data.personalDetails as any,
+          academic_details: data.academicDetails as any,
+          declaration: data.declaration as any,
+          uploads: data.uploads as any,
           updated_at: new Date().toISOString(),
         }, {
           onConflict: "user_id"
@@ -95,10 +95,10 @@ export const useFormPersistence = (initialData: FormData) => {
         .from("admission_applications")
         .upsert({
           user_id: user.id,
-          personal_details: data.personalDetails,
-          academic_details: data.academicDetails,
-          declaration: data.declaration,
-          uploads: data.uploads,
+          personal_details: data.personalDetails as any,
+          academic_details: data.academicDetails as any,
+          declaration: data.declaration as any,
+          uploads: data.uploads as any,
           application_status: "submitted",
           submitted_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
